@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Aurelia — Cucina Italiana</title>
+<meta name="description" content="Casa Aurelia — ristorante italiano di alta cucina. Prenota il tuo tavolo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__brand">Casa Aurelia</a>
+  <nav class="nav__links">
+    <a href="#la-casa">La Casa</a>
+    <a href="#il-menu">Il Menù</a>
+    <a href="#lo-chef">Lo Chef</a>
+    <a href="#la-sala">La Sala</a>
+    <a href="#prenotazione">Prenotazione</a>
+  </nav>
+  <button class="nav__toggle" id="navToggle" aria-label="Apri il menù di navigazione" aria-expanded="false" aria-controls="navLinksMobile">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="nav-mobile" id="navLinksMobile">
+  <a href="#la-casa">La Casa</a>
+  <a href="#il-menu">Il Menù</a>
+  <a href="#lo-chef">Lo Chef</a>
+  <a href="#la-sala">La Sala</a>
+  <a href="#prenotazione">Prenotazione</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="hero__bg" aria-hidden="true">
+    <img src="fotoğraflar/hero.jpg" alt="" class="hero__img" width="3500" height="2499" fetchpriority="high">
+  </div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="hero__content">
+    <p class="eyebrow reveal" data-reveal>Cucina Italiana &middot; Dal 1987</p>
+    <h1 class="hero__title reveal" data-reveal>Casa Aurelia</h1>
+    <p class="hero__tagline reveal" data-reveal><em>Dove ogni sera diventa un ricordo.</em></p>
+    <a href="#prenotazione" class="btn btn--ghost reveal" data-reveal>Prenota il tuo tavolo</a>
+  </div>
+  <div class="hero__scrolldown" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- ===== LA CASA ===== -->
+<section class="la-casa" id="la-casa">
+  <div class="split">
+    <div class="split__media reveal" data-reveal>
+      <img src="fotoğraflar/0f9172b8f3b7d09af0e2e81cfcfdde7f.jpg" alt="Tavolo apparecchiato con i piatti signature di Casa Aurelia" class="split__img" loading="lazy">
+    </div>
+    <div class="split__text reveal" data-reveal>
+      <p class="eyebrow">La Casa</p>
+      <h2>Una storia, <em>un'unica tavola.</em></h2>
+      <!-- ===== MODIFICA QUI: testo storia del ristorante ===== -->
+      <p class="prose">
+        Casa Aurelia nasce dal desiderio di portare la tavola italiana più autentica
+        in una sala che ne rispetti il rigore e la lentezza. Ogni ricetta arriva da
+        una tradizione regionale precisa, ogni sera è pensata come un intero racconto,
+        dal primo calice all'ultimo cucchiaio.
+      </p>
+      <p class="prose">
+        Non serviamo piatti. Serviamo memoria: quella dei mercati di Bologna,
+        delle cantine di Langhe, delle coste di Amalfi.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IL MENÙ (signature section) ===== -->
+<section class="menu-section" id="il-menu">
+  <div class="menu-section__head reveal" data-reveal>
+    <p class="eyebrow">Il Menù</p>
+    <h2>Un percorso, <em>non una lista.</em></h2>
+  </div>
+
+  <div class="menu-layout">
+    <!-- vertical course tabs -->
+    <div class="menu-tabs" role="tablist" aria-label="Portate del menù" aria-orientation="vertical">
+      <button class="menu-tab is-active" role="tab" aria-selected="true" aria-controls="panel-antipasti" id="tab-antipasti" data-course="antipasti">Antipasti</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="panel-primi" id="tab-primi" data-course="primi" tabindex="-1">Primi</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="panel-secondi" id="tab-secondi" data-course="secondi" tabindex="-1">Secondi</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="panel-dolci" id="tab-dolci" data-course="dolci" tabindex="-1">Dolci</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="panel-vini" id="tab-vini" data-course="vini" tabindex="-1">Vini</button>
+    </div>
+
+    <!-- dish list panel -->
+    <div class="menu-panel">
+      <!-- ===== MODIFICA QUI: piatti, descrizioni e prezzi ===== -->
+      <div class="menu-list is-active" id="panel-antipasti" role="tabpanel" aria-labelledby="tab-antipasti" tabindex="0">
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Carpaccio di Manzo</span><span class="dish__price">€24</span></div>
+          <p class="dish__desc">Filetto di manzo battuto a coltello, scaglie di Parmigiano 30 mesi, tartufo nero.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Burrata Pugliese</span><span class="dish__price">€19</span></div>
+          <p class="dish__desc">Burrata artigianale, pomodorini confit, basilico, olio extravergine di Puglia.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Vitello Tonnato</span><span class="dish__price">€22</span></div>
+          <p class="dish__desc">Vitello cotto a bassa temperatura, salsa tonnata classica, capperi di Pantelleria.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Capesante Scottate</span><span class="dish__price">€26</span></div>
+          <p class="dish__desc">Capesante scottate al burro, purea di topinambur, nocciole tostate, erba cipollina.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Tartare di Tonno</span><span class="dish__price">€23</span></div>
+          <p class="dish__desc">Tonno rosso battuto al coltello, avocado, lime, sesamo nero, salsa allo yuzu.</p>
+        </div>
+      </div>
+
+      <div class="menu-list" id="panel-primi" role="tabpanel" aria-labelledby="tab-primi" tabindex="0" hidden>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Tagliolini al Tartufo</span><span class="dish__price">€32</span></div>
+          <p class="dish__desc">Pasta fresca all'uovo, burro di malga, tartufo nero pregiato grattugiato al tavolo.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Risotto alla Milanese</span><span class="dish__price">€26</span></div>
+          <p class="dish__desc">Riso Carnaroli, midollo, zafferano di Navelli, riduzione di Barolo.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Agnolotti del Plin</span><span class="dish__price">€28</span></div>
+          <p class="dish__desc">Ripieno di tre arrosti, burro nocciola, salvia, Parmigiano stravecchio.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Pappardelle al Cinghiale</span><span class="dish__price">€27</span></div>
+          <p class="dish__desc">Pasta fresca larga, ragù di cinghiale brasato otto ore, bacche di ginepro.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Gnocchi di Patate al Gorgonzola</span><span class="dish__price">€24</span></div>
+          <p class="dish__desc">Gnocchi fatti in casa, fonduta di Gorgonzola DOP, noci caramellate.</p>
+        </div>
+      </div>
+
+      <div class="menu-list" id="panel-secondi" role="tabpanel" aria-labelledby="tab-secondi" tabindex="0" hidden>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Branzino in Crosta</span><span class="dish__price">€38</span></div>
+          <p class="dish__desc">Branzino selvaggio in crosta di sale, verdure di stagione, salsa al limone di Amalfi.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Tomahawk alla Fiorentina</span><span class="dish__price">€68</span></div>
+          <p class="dish__desc">Razza Chianina, cottura alla brace, rosmarino, olio extravergine toscano. Per due persone.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Ossobuco alla Milanese</span><span class="dish__price">€36</span></div>
+          <p class="dish__desc">Stinco di vitello brasato otto ore, gremolada, risotto allo zafferano.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Costoletta alla Milanese</span><span class="dish__price">€34</span></div>
+          <p class="dish__desc">Costoletta di vitello impanata e fritta nel burro chiarificato, insalata di rucola.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Anatra all'Arancia</span><span class="dish__price">€39</span></div>
+          <p class="dish__desc">Petto d'anatra scottato, riduzione all'arancia amara, purea di sedano rapa.</p>
+        </div>
+      </div>
+
+      <div class="menu-list" id="panel-dolci" role="tabpanel" aria-labelledby="tab-dolci" tabindex="0" hidden>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Tiramisù della Casa</span><span class="dish__price">€14</span></div>
+          <p class="dish__desc">Savoiardi al caffè, mascarpone di Lodi, cacao amaro, ricetta originale del 1987.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Panna Cotta ai Frutti di Bosco</span><span class="dish__price">€12</span></div>
+          <p class="dish__desc">Panna cotta alla vaniglia del Madagascar, coulis di frutti di bosco freschi.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Cannoli Siciliani</span><span class="dish__price">€13</span></div>
+          <p class="dish__desc">Cialda croccante, ricotta di pecora, canditi, pistacchio di Bronte.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Torta Caprese</span><span class="dish__price">€13</span></div>
+          <p class="dish__desc">Torta al cioccolato fondente e mandorle, senza farina, gelato alla vaniglia.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Semifreddo al Torroncino</span><span class="dish__price">€12</span></div>
+          <p class="dish__desc">Semifreddo al torrone di Cremona, croccante di nocciole, salsa al caramello.</p>
+        </div>
+      </div>
+
+      <div class="menu-list" id="panel-vini" role="tabpanel" aria-labelledby="tab-vini" tabindex="0" hidden>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Barolo DOCG, Langhe</span><span class="dish__price">€95</span></div>
+          <p class="dish__desc">Nebbiolo in purezza, invecchiamento 5 anni in botte grande.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Franciacorta Brut Riserva</span><span class="dish__price">€78</span></div>
+          <p class="dish__desc">Metodo classico, Chardonnay e Pinot Nero, sboccatura tardiva.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Amarone della Valpolicella</span><span class="dish__price">€88</span></div>
+          <p class="dish__desc">Uve appassite, corpo pieno, note di ciliegia matura e spezie dolci.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Brunello di Montalcino</span><span class="dish__price">€110</span></div>
+          <p class="dish__desc">Sangiovese Grosso, invecchiamento minimo 5 anni, struttura e tannini eleganti.</p>
+        </div>
+        <div class="dish">
+          <div class="dish__row"><span class="dish__name">Vermentino di Gallura</span><span class="dish__price">€52</span></div>
+          <p class="dish__desc">Bianco sardo minerale, note di agrumi e macchia mediterranea, servito fresco.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- dynamic photo -->
+    <div class="menu-photo">
+      <div class="ph--menu is-active" data-course-photo="antipasti">
+        <img src="fotoğraflar/broccoli-and-garlic-ricotta-toasts-with-hot-honey-recipe-BA-101518.webp" alt="Crostini con ricotta, broccoli arrostiti e miele piccante" class="menu-photo__img" loading="lazy">
+      </div>
+      <div class="ph--menu" data-course-photo="primi">
+        <img src="fotoğraflar/images (1).jpeg" alt="Pasta fresca in salsa cremosa di pomodoro" class="menu-photo__img" loading="lazy">
+      </div>
+      <div class="ph--menu" data-course-photo="secondi">
+        <img src="fotoğraflar/Braciole-FT-RECIPE1122-66acf49cef0e4390bec780945709e7f3.jpg" alt="Involtini di manzo brasati al sugo di pomodoro" class="menu-photo__img" loading="lazy">
+      </div>
+      <div class="ph--menu" data-course-photo="dolci">
+        <img src="fotoğraflar/Tiramisu.webp" alt="Tiramisù della casa" class="menu-photo__img" loading="lazy">
+      </div>
+      <div class="ph--menu" data-course-photo="vini">
+        <img src="fotoğraflar/A-Trip-To-Sicily-Wine-Tasting-Experience.-1-scaled.webp" alt="Selezione di vini siciliani con tagliere di salumi e formaggi" class="menu-photo__img" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LO CHEF ===== -->
+<section class="lo-chef" id="lo-chef">
+  <div class="split split--reverse">
+    <div class="split__media reveal" data-reveal>
+      <img src="fotoğraflar/02c2adac9230ca8bd8a6715bad896b64.jpg" alt="Lo Chef e la sua brigata al lavoro nella cucina a vista" class="split__img" loading="lazy">
+    </div>
+    <div class="split__text reveal" data-reveal>
+      <p class="eyebrow">Lo Chef</p>
+      <h2>Trentacinque anni <em>in una pentola.</em></h2>
+      <!-- ===== MODIFICA QUI: biografia dello chef ===== -->
+      <p class="prose">
+        Formatosi tra Bologna e Torino, lo Chef porta in Casa Aurelia un rigore
+        appreso in cucine stellate e mai abbandonato: ingredienti pochi, scelti
+        con ostinazione, lavorati senza scorciatoie.
+      </p>
+      <p class="prose">
+        "La cucina italiana non ha bisogno di essere reinventata. Ha bisogno di
+        essere rispettata."
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LA SALA ===== -->
+<section class="la-sala" id="la-sala">
+  <div class="la-sala__head reveal" data-reveal>
+    <p class="eyebrow">La Sala</p>
+    <h2>L'atmosfera <em>della sera.</em></h2>
+  </div>
+  <div class="la-sala__strip">
+    <div class="ph--strip reveal" data-reveal>
+      <img src="fotoğraflar/9d70cb377a3d3e8f5e9a8c3c40a07486.jpg" alt="Tavolo per l'aperitivo con stuzzichini e cocktail della casa" class="strip__img" loading="lazy">
+    </div>
+    <div class="ph--strip reveal" data-reveal>
+      <img src="fotoğraflar/images.jpeg" alt="Pizza artigianale appena sfornata" class="strip__img" loading="lazy">
+    </div>
+    <div class="ph--strip reveal" data-reveal>
+      <img src="fotoğraflar/2000_69f407f318c44.jpg" alt="Pizza con burrata, rucola e tartufo nero" class="strip__img" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRENOTAZIONE ===== -->
+<section class="prenotazione" id="prenotazione">
+  <div class="prenotazione__inner reveal" data-reveal>
+    <p class="eyebrow">Prenotazione</p>
+    <h2>Vi aspettiamo <em>stasera.</em></h2>
+
+    <!-- ===== MODIFICA QUI: orari, indirizzo, contatti reali ===== -->
+    <div class="info-grid">
+      <div class="info-block">
+        <h3>Orari</h3>
+        <p>Martedì – Domenica<br>19:30 – 23:30<br>Lunedì chiuso</p>
+      </div>
+      <div class="info-block">
+        <h3>Indirizzo</h3>
+        <p>Via dei Cavalieri, 12<br>20121 Milano, Italia</p>
+      </div>
+      <div class="info-block">
+        <h3>Contatti</h3>
+        <p><a href="tel:+390212345678" class="info-link">+39 02 1234 5678</a><br>
+        <a href="mailto:info@casaaurelia.it" class="info-link">info@casaaurelia.it</a></p>
+      </div>
+    </div>
+
+    <div class="prenotazione__cta">
+      <a href="#" class="btn btn--solid" id="whatsappBtnMain">Prenota su WhatsApp</a>
+      <a href="tel:+390212345678" class="btn btn--outline">Chiama ora</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p class="footer__brand">Casa Aurelia</p>
+  <p class="footer__note">&copy; <span id="year"></span> Casa Aurelia. Tutti i diritti riservati.</p>
+</footer>
+
+<!-- ===== STICKY RESERVATION BUTTON ===== -->
+<a href="#" class="sticky-cta" id="whatsappBtnSticky" aria-label="Prenota su WhatsApp">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.478 2 12c0 1.85.505 3.622 1.463 5.166L2.057 22l4.98-1.377A9.953 9.953 0 0012.001 22C17.523 22 22 17.522 22 12S17.523 2 12.001 2zm0 18.15a8.13 8.13 0 01-4.15-1.14l-.297-.176-3.02.836.844-2.94-.194-.303A8.13 8.13 0 013.85 12c0-4.5 3.65-8.15 8.151-8.15 4.5 0 8.15 3.65 8.15 8.15 0 4.5-3.65 8.15-8.15 8.15z"/></svg>
+  <span>Prenota</span>
+</a>
+
+<script src="js/main.js"></script>
+</body>
+</html>
