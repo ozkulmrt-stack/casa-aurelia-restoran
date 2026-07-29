@@ -3,25 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casa Aurelia — Cucina Italiana</title>
-<meta name="description" content="Casa Aurelia — ristorante italiano di alta cucina. Prenota il tuo tavolo.">
+<title>Casa Aurelia | İstanbul'da İtalyan Restoranı — Rezervasyon Yapın</title>
+<meta name="description" content="Casa Aurelia, İstanbul Nişantaşı'nda otantik İtalyan mutfağı sunan üst düzey bir restorandır. Antipasti, ev yapımı pasta, et ve balık, İtalyan şarap seçkisi. Hemen masa ayırtın.">
+<link rel="canonical" href="https://casa-aurelia-restoran.vercel.app/">
+<meta name="robots" content="index, follow">
 
 <!-- ===== FAVICON ===== -->
 <link rel="icon" type="image/jpeg" href="fotoğraflar/FAVICON.jpg.jpeg">
 <link rel="apple-touch-icon" href="fotoğraflar/FAVICON.jpg.jpeg">
 
 <!-- ===== OPEN GRAPH / SOCIAL SHARE ===== -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://casa-aurelia-restoran.vercel.app">
-<meta property="og:title" content="Casa Aurelia — Cucina Italiana">
-<meta property="og:description" content="Ristorante italiano di alta cucina. Prenota il tuo tavolo.">
+<meta property="og:type" content="restaurant">
+<meta property="og:url" content="https://casa-aurelia-restoran.vercel.app/">
+<meta property="og:site_name" content="Casa Aurelia">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Casa Aurelia | İstanbul'da İtalyan Restoranı">
+<meta property="og:description" content="Nişantaşı'nda otantik İtalyan mutfağı. Antipasti, ev yapımı pasta, et ve balık, İtalyan şarap seçkisi. Rezervasyon için WhatsApp'tan yazın.">
 <meta property="og:image" content="https://raw.githubusercontent.com/ozkulmrt-stack/casa-aurelia-restoran/main/foto%C4%9Fraflar/OG.jpg.jpeg">
 <meta property="og:image:width" content="1201">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Casa Aurelia — Cucina Italiana">
-<meta name="twitter:description" content="Ristorante italiano di alta cucina. Prenota il tuo tavolo.">
+<meta name="twitter:title" content="Casa Aurelia | İstanbul'da İtalyan Restoranı">
+<meta name="twitter:description" content="Nişantaşı'nda otantik İtalyan mutfağı. Antipasti, ev yapımı pasta, et ve balık, İtalyan şarap seçkisi. Rezervasyon için WhatsApp'tan yazın.">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/ozkulmrt-stack/casa-aurelia-restoran/main/foto%C4%9Fraflar/OG.jpg.jpeg">
+
+<!-- ===== YAPISAL VERİ (Schema.org / JSON-LD) ===== -->
+<!-- ===== MODIFICA QUI: adres, telefon, saatler placeholder — gerçek bilgilerle değiştir ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Casa Aurelia",
+  "description": "İstanbul Nişantaşı'nda otantik İtalyan mutfağı sunan üst düzey restoran.",
+  "image": "https://raw.githubusercontent.com/ozkulmrt-stack/casa-aurelia-restoran/main/foto%C4%9Fraflar/OG.jpg.jpeg",
+  "url": "https://casa-aurelia-restoran.vercel.app/",
+  "telephone": "+90-212-123-45-67",
+  "email": "info@casaaurelia.it",
+  "servesCuisine": ["Italian", "Mediterranean"],
+  "priceRange": "€€€",
+  "acceptsReservations": "True",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Abdi İpekçi Caddesi, 12",
+    "addressLocality": "Şişli",
+    "addressRegion": "İstanbul",
+    "postalCode": "34365",
+    "addressCountry": "TR"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "19:30",
+      "closes": "23:30"
+    }
+  ],
+  "hasMenu": {
+    "@type": "Menu",
+    "name": "Il Menù",
+    "url": "https://casa-aurelia-restoran.vercel.app/#il-menu",
+    "hasMenuSection": [
+      {
+        "@type": "MenuSection",
+        "name": "Antipasti",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Carpaccio di Manzo", "description": "Filetto di manzo battuto a coltello, scaglie di Parmigiano 30 mesi, tartufo nero.", "offers": { "@type": "Offer", "price": "24", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Burrata Pugliese", "description": "Burrata artigianale, pomodorini confit, basilico, olio extravergine di Puglia.", "offers": { "@type": "Offer", "price": "19", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Vitello Tonnato", "description": "Vitello cotto a bassa temperatura, salsa tonnata classica, capperi di Pantelleria.", "offers": { "@type": "Offer", "price": "22", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Capesante Scottate", "description": "Capesante scottate al burro, purea di topinambur, nocciole tostate, erba cipollina.", "offers": { "@type": "Offer", "price": "26", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Tartare di Tonno", "description": "Tonno rosso battuto al coltello, avocado, lime, sesamo nero, salsa allo yuzu.", "offers": { "@type": "Offer", "price": "23", "priceCurrency": "EUR" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Primi",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Tagliolini al Tartufo", "description": "Pasta fresca all'uovo, burro di malga, tartufo nero pregiato grattugiato al tavolo.", "offers": { "@type": "Offer", "price": "32", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Risotto alla Milanese", "description": "Riso Carnaroli, midollo, zafferano di Navelli, riduzione di Barolo.", "offers": { "@type": "Offer", "price": "26", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Agnolotti del Plin", "description": "Ripieno di tre arrosti, burro nocciola, salvia, Parmigiano stravecchio.", "offers": { "@type": "Offer", "price": "28", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Pappardelle al Cinghiale", "description": "Pasta fresca larga, ragù di cinghiale brasato otto ore, bacche di ginepro.", "offers": { "@type": "Offer", "price": "27", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Gnocchi di Patate al Gorgonzola", "description": "Gnocchi fatti in casa, fonduta di Gorgonzola DOP, noci caramellate.", "offers": { "@type": "Offer", "price": "24", "priceCurrency": "EUR" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Secondi",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Branzino in Crosta", "description": "Branzino selvaggio in crosta di sale, verdure di stagione, salsa al limone di Amalfi.", "offers": { "@type": "Offer", "price": "38", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Tomahawk alla Fiorentina", "description": "Razza Chianina, cottura alla brace, rosmarino, olio extravergine toscano. Per due persone.", "offers": { "@type": "Offer", "price": "68", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Ossobuco alla Milanese", "description": "Stinco di vitello brasato otto ore, gremolada, risotto allo zafferano.", "offers": { "@type": "Offer", "price": "36", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Costoletta alla Milanese", "description": "Costoletta di vitello impanata e fritta nel burro chiarificato, insalata di rucola.", "offers": { "@type": "Offer", "price": "34", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Anatra all'Arancia", "description": "Petto d'anatra scottato, riduzione all'arancia amara, purea di sedano rapa.", "offers": { "@type": "Offer", "price": "39", "priceCurrency": "EUR" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Dolci",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Tiramisù della Casa", "description": "Savoiardi al caffè, mascarpone di Lodi, cacao amaro, ricetta originale del 1987.", "offers": { "@type": "Offer", "price": "14", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Panna Cotta ai Frutti di Bosco", "description": "Panna cotta alla vaniglia del Madagascar, coulis di frutti di bosco freschi.", "offers": { "@type": "Offer", "price": "12", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Cannoli Siciliani", "description": "Cialda croccante, ricotta di pecora, canditi, pistacchio di Bronte.", "offers": { "@type": "Offer", "price": "13", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Torta Caprese", "description": "Torta al cioccolato fondente e mandorle, senza farina, gelato alla vaniglia.", "offers": { "@type": "Offer", "price": "13", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Semifreddo al Torroncino", "description": "Semifreddo al torrone di Cremona, croccante di nocciole, salsa al caramello.", "offers": { "@type": "Offer", "price": "12", "priceCurrency": "EUR" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Vini",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Barolo DOCG, Langhe", "description": "Nebbiolo in purezza, invecchiamento 5 anni in botte grande.", "offers": { "@type": "Offer", "price": "95", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Franciacorta Brut Riserva", "description": "Metodo classico, Chardonnay e Pinot Nero, sboccatura tardiva.", "offers": { "@type": "Offer", "price": "78", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Amarone della Valpolicella", "description": "Uve appassite, corpo pieno, note di ciliegia matura e spezie dolci.", "offers": { "@type": "Offer", "price": "88", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Brunello di Montalcino", "description": "Sangiovese Grosso, invecchiamento minimo 5 anni, struttura e tannini eleganti.", "offers": { "@type": "Offer", "price": "110", "priceCurrency": "EUR" } },
+          { "@type": "MenuItem", "name": "Vermentino di Gallura", "description": "Bianco sardo minerale, note di agrumi e macchia mediterranea, servito fresco.", "offers": { "@type": "Offer", "price": "52", "priceCurrency": "EUR" } }
+        ]
+      }
+    ]
+  }
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -305,18 +405,18 @@
       </div>
       <div class="info-block">
         <h3>Indirizzo</h3>
-        <p>Via dei Cavalieri, 12<br>20121 Milano, Italia</p>
+        <p>Abdi İpekçi Caddesi, 12<br>34365 Nişantaşı, İstanbul</p>
       </div>
       <div class="info-block">
         <h3>Contatti</h3>
-        <p><a href="tel:+390212345678" class="info-link">+39 02 1234 5678</a><br>
+        <p><a href="tel:+902121234567" class="info-link">+90 212 123 45 67</a><br>
         <a href="mailto:info@casaaurelia.it" class="info-link">info@casaaurelia.it</a></p>
       </div>
     </div>
 
     <div class="prenotazione__cta">
       <a href="#" class="btn btn--solid" id="whatsappBtnMain">Prenota su WhatsApp</a>
-      <a href="tel:+390212345678" class="btn btn--outline">Chiama ora</a>
+      <a href="tel:+902121234567" class="btn btn--outline">Chiama ora</a>
     </div>
   </div>
 </section>

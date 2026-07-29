@@ -1,5 +1,5 @@
 // ===== MODIFICA QUI: numero WhatsApp e messaggio predefinito =====
-const WHATSAPP_NUMBER = "390212345678"; // formato internazionale, senza + o spazi
+const WHATSAPP_NUMBER = "902121234567"; // formato internazionale, senza + o spazi
 const WHATSAPP_MESSAGE = "Buonasera, vorrei prenotare un tavolo da Casa Aurelia.";
 
 (function setupWhatsapp() {
