@@ -585,6 +585,76 @@ a:focus-visible, button:focus-visible {
 }
 
 /* ===========================================================
+   Reservation Form
+   =========================================================== */
+.reservation-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.form-row--three { grid-template-columns: 1fr 1fr 1fr; }
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.form-field label {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--salvia);
+}
+.form-field input,
+.form-field select {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--crema);
+  background: var(--verde-notte);
+  border: 1px solid var(--verde-linea);
+  border-radius: var(--radius);
+  padding: 0.75rem 0.9rem;
+  transition: border-color 0.25s var(--ease);
+}
+.form-field input::placeholder { color: var(--salvia); opacity: 0.6; }
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--oro);
+}
+.form-field select { appearance: auto; }
+
+.form-error {
+  color: #e08585;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.form-feedback {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  min-height: 1.2em;
+}
+.form-feedback.is-success { color: var(--oro-chiaro); }
+.form-feedback.is-error { color: #e08585; }
+
+.reservation-fallback {
+  border-top: 1px solid var(--verde-linea);
+  padding-top: var(--space-3);
+}
+.reservation-fallback__label {
+  color: var(--salvia);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-2);
+}
+
+/* ===========================================================
    Footer
    =========================================================== */
 .footer {
@@ -713,6 +783,11 @@ a:focus-visible, button:focus-visible {
   .prenotazione__cta { justify-content: center; margin-top: var(--space-4); }
   .prenotazione__map { min-height: 280px; }
   .prenotazione__map iframe { min-height: 280px; }
+
+  .reservation-form { text-align: left; }
+  .form-row,
+  .form-row--three { grid-template-columns: 1fr; }
+  .reservation-fallback { text-align: center; }
 }
 
 @media (max-width: 480px) {

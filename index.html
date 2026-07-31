@@ -142,6 +142,7 @@
 <script defer src="js/smooth-scroll.js"></script>
 <script defer src="js/hero-scrub.js"></script>
 <script defer src="js/main.js"></script>
+<script defer src="js/reservation.js"></script>
 </head>
 <body>
 
@@ -440,9 +441,64 @@
           </div>
         </div>
 
-        <div class="prenotazione__cta">
-          <a href="#" class="btn btn--solid" id="whatsappBtnMain">Book via WhatsApp</a>
-          <a href="tel:+902121234567" class="btn btn--outline">Call Now</a>
+        <form class="reservation-form" id="reservationForm" novalidate>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="resName">Full name</label>
+              <input type="text" id="resName" name="name" autocomplete="name" required maxlength="100">
+            </div>
+            <div class="form-field">
+              <label for="resPhone">Phone</label>
+              <input type="tel" id="resPhone" name="phone" autocomplete="tel" required maxlength="30" placeholder="+90 5xx xxx xx xx">
+            </div>
+          </div>
+          <div class="form-row form-row--three">
+            <div class="form-field">
+              <label for="resDate">Date</label>
+              <input type="date" id="resDate" name="date" required>
+            </div>
+            <div class="form-field">
+              <label for="resTime">Time</label>
+              <select id="resTime" name="time" required>
+                <option value="" disabled selected>Select</option>
+                <option value="19:30">19:30</option>
+                <option value="20:00">20:00</option>
+                <option value="20:30">20:30</option>
+                <option value="21:00">21:00</option>
+                <option value="21:30">21:30</option>
+                <option value="22:00">22:00</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="resParty">Guests</label>
+              <select id="resParty" name="party" required>
+                <option value="" disabled selected>Guests</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+          <p class="form-error" id="resFormError" role="alert" hidden></p>
+          <button type="submit" class="btn btn--solid" id="resSubmit">Reserve Table</button>
+          <p class="form-feedback" id="resFeedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="reservation-fallback">
+          <p class="reservation-fallback__label">Prefer WhatsApp or a call?</p>
+          <div class="prenotazione__cta">
+            <a href="#" class="btn btn--solid" id="whatsappBtnMain">Book via WhatsApp</a>
+            <a href="tel:+902121234567" class="btn btn--outline">Call Now</a>
+          </div>
         </div>
       </div>
 

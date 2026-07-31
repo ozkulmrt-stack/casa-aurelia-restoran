@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Book | Casa Aurelia</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Jost:wght@400&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+<!-- ===== LOGIN ===== -->
+<section class="admin-login" id="adminLogin">
+  <div class="admin-login__inner">
+    <p class="admin-login__brand">Casa Aurelia</p>
+    <h1 class="admin-login__title">Service Book</h1>
+    <form id="adminLoginForm" novalidate>
+      <div class="admin-field admin-field--underline">
+        <label for="adminEmail">Email</label>
+        <input type="email" id="adminEmail" autocomplete="username" required>
+      </div>
+      <div class="admin-field admin-field--underline">
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" autocomplete="current-password" required>
+      </div>
+      <p class="admin-error" id="adminLoginError" role="alert" hidden></p>
+      <button type="submit" class="admin-login__submit">Sign In</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== PANEL ===== -->
+<section class="admin-panel" id="adminPanel" hidden>
+  <header class="admin-panel__topbar">
+    <div>
+      <p class="admin-panel__brand">Casa Aurelia</p>
+      <h1 class="admin-panel__title">Service Book</h1>
+    </div>
+    <button type="button" class="admin-link-btn" id="adminLogout">Sign out</button>
+  </header>
+
+  <div class="admin-datebar">
+    <button type="button" class="admin-arrow-btn" id="datePrev" aria-label="Previous day">‹</button>
+    <div class="admin-datebar__center">
+      <span class="admin-datebar__label" id="dateLabel"></span>
+      <input type="date" id="dateInput" class="admin-datebar__input" aria-label="Jump to date">
+    </div>
+    <button type="button" class="admin-arrow-btn" id="dateNext" aria-label="Next day">›</button>
+    <button type="button" class="admin-link-btn admin-today-btn" id="dateToday">Today</button>
+  </div>
+
+  <p class="admin-summary" id="summaryLine"></p>
+
+  <div class="admin-toolbar">
+    <input type="search" id="searchInput" class="admin-search" placeholder="Search name or phone">
+    <label class="admin-checkbox">
+      <input type="checkbox" id="showCancelled">
+      <span>Show cancelled</span>
+    </label>
+    <div class="admin-toolbar__spacer"></div>
+    <label class="admin-capacity">
+      <span>Capacity</span>
+      <input type="number" id="capacityInput" min="1" max="500">
+    </label>
+    <button type="button" class="admin-link-btn" id="csvBtn">CSV</button>
+    <button type="button" class="admin-link-btn" id="printBtn">Print</button>
+    <button type="button" class="btn btn--solid admin-add-btn" id="addBtn">+ Add reservation</button>
+  </div>
+
+  <p class="admin-status" id="statusLine" role="status" aria-live="polite"></p>
+
+  <div class="service-spine" id="serviceSpine"></div>
+</section>
+
+<!-- ===== ADD RESERVATION MODAL ===== -->
+<div class="admin-modal" id="addModal" hidden>
+  <div class="admin-modal__backdrop" id="addModalBackdrop"></div>
+  <form class="admin-modal__panel" id="addForm" novalidate>
+    <h2>Add reservation</h2>
+    <div class="admin-field">
+      <label for="addName">Name</label>
+      <input type="text" id="addName" required maxlength="100">
+    </div>
+    <div class="admin-field">
+      <label for="addPhone">Phone</label>
+      <input type="tel" id="addPhone" required maxlength="30">
+    </div>
+    <div class="admin-field-row">
+      <div class="admin-field">
+        <label for="addDate">Date</label>
+        <input type="date" id="addDate" required>
+      </div>
+      <div class="admin-field">
+        <label for="addTime">Time</label>
+        <select id="addTime" required>
+          <option value="" disabled selected>Select</option>
+          <option value="19:30">19:30</option>
+          <option value="20:00">20:00</option>
+          <option value="20:30">20:30</option>
+          <option value="21:00">21:00</option>
+          <option value="21:30">21:30</option>
+          <option value="22:00">22:00</option>
+        </select>
+      </div>
+      <div class="admin-field">
+        <label for="addParty">Guests</label>
+        <input type="number" id="addParty" min="1" max="20" required>
+      </div>
+    </div>
+    <p class="admin-error" id="addFormError" role="alert" hidden></p>
+    <div class="admin-modal__actions">
+      <button type="button" class="admin-link-btn" id="addOverrideBtn" hidden>Add anyway</button>
+      <div class="admin-toolbar__spacer"></div>
+      <button type="button" class="admin-link-btn" id="addCancelBtn">Cancel</button>
+      <button type="submit" class="btn btn--solid" id="addSubmitBtn">Add</button>
+    </div>
+  </form>
+</div>
+
+<script defer src="js/admin.js"></script>
+</body>
+</html>

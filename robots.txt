@@ -1,35 +1,57 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 # AI / GEO crawlers — sayfayı okumalarına ve önermelerine izin ver
 User-agent: GPTBot
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: Perplexity-User
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: Claude-User
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: Claude-SearchBot
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /admin.html
+Disallow: /api/
 
 Sitemap: https://casa-aurelia-restoran.vercel.app/sitemap.xml
