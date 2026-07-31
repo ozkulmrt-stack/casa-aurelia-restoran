@@ -1,6 +1,6 @@
-// ===== MODIFICA QUI: numero WhatsApp e messaggio predefinito =====
-const WHATSAPP_NUMBER = "902121234567"; // formato internazionale, senza + o spazi
-const WHATSAPP_MESSAGE = "Buonasera, vorrei prenotare un tavolo da Casa Aurelia.";
+// ===== EDIT HERE: WhatsApp number and default message =====
+const WHATSAPP_NUMBER = "902121234567"; // international format, no + or spaces
+const WHATSAPP_MESSAGE = "Good evening, I'd like to reserve a table at Casa Aurelia.";
 
 (function setupWhatsapp() {
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
@@ -25,21 +25,27 @@ const WHATSAPP_MESSAGE = "Buonasera, vorrei prenotare un tavolo da Casa Aurelia.
   const panel = document.getElementById("navLinksMobile");
   if (!toggle || !panel) return;
 
-  const close = () => {
+  const close = ({ restoreFocus = false } = {}) => {
+    if (!panel.classList.contains("is-open")) return;
     panel.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
     toggle.setAttribute("aria-expanded", "false");
+    if (restoreFocus) toggle.focus();
   };
   const open = () => {
     panel.classList.add("is-open");
+    panel.removeAttribute("aria-hidden");
     toggle.setAttribute("aria-expanded", "true");
+    panel.querySelector("a")?.focus();
   };
 
   toggle.addEventListener("click", () => {
-    panel.classList.contains("is-open") ? close() : open();
+    panel.classList.contains("is-open") ? close({ restoreFocus: true }) : open();
   });
-  panel.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+  // Links close the drawer but keep focus on the section they jump to.
+  panel.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => close()));
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close();
+    if (e.key === "Escape") close({ restoreFocus: true });
   });
 })();
 
@@ -123,31 +129,8 @@ const WHATSAPP_MESSAGE = "Buonasera, vorrei prenotare un tavolo da Casa Aurelia.
   });
 })();
 
-// ===== Hero subtle parallax =====
-(function heroParallax() {
-  const bg = document.querySelector(".hero__bg");
-  const hero = document.querySelector(".hero");
-  if (!bg || !hero) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  let ticking = false;
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const rect = hero.getBoundingClientRect();
-        if (rect.bottom > 0 && rect.top < window.innerHeight) {
-          const progress = -rect.top / rect.height;
-          bg.style.transform = `translateY(${progress * 10}%)`;
-        }
-        ticking = false;
-      });
-    },
-    { passive: true }
-  );
-})();
-
 // ===== Footer year =====
-document.getElementById("year").textContent = new Date().getFullYear();
+(function footerYear() {
+  const el = document.getElementById("year");
+  if (el) el.textContent = new Date().getFullYear();
+})();
