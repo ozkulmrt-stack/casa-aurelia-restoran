@@ -682,17 +682,25 @@ a:focus-visible, button:focus-visible {
     flex-wrap: wrap;
     writing-mode: horizontal-tb;
     border-right: none;
-    border-bottom: 1px solid var(--verde-linea);
+    border-bottom: none;
     padding-right: 0;
     padding-bottom: var(--space-2);
     justify-content: center;
-    gap: 0.4rem var(--space-3);
+    gap: 0.5rem;
   }
   .menu-tab {
     writing-mode: horizontal-tb;
     transform: none;
     white-space: nowrap;
-    padding: 0.7rem 0;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--verde-linea);
+    border-radius: 999px;
+    background: transparent;
+  }
+  .menu-tab.is-active {
+    background: var(--oro);
+    border-color: var(--oro);
+    color: var(--verde-notte);
   }
   /* min-height must be reset, not just omitted: the base rule's 420px
      combined with aspect-ratio forces a 560px minimum width here. */
