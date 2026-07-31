@@ -56,13 +56,17 @@ module.exports = async function handler(req, res) {
           p_party_size: partySize,
         }),
       });
-      if (!upstream.ok) return res.status(502).json({ error: "upstream_error" });
+      if (!upstream.ok) {
+        console.error("admin/create RPC upstream error:", upstream.status, await upstream.text());
+        return res.status(502).json({ error: "upstream_error" });
+      }
       const data = await upstream.json();
       if (data && data.success) return res.status(200).json({ success: true, id: data.id });
       // Business-rule rejection (full/closed/invalid_date/...) — not a server
       // error. The admin UI decides whether to offer "add anyway".
       return res.status(200).json({ success: false, reason: data && data.reason });
     } catch (err) {
+      console.error("admin/create RPC path failed:", err);
       return res.status(500).json({ error: "internal_error" });
     }
   }
@@ -85,11 +89,15 @@ module.exports = async function handler(req, res) {
       headers: { ...authHeaders, "Content-Type": "application/json", Prefer: "return=representation" },
       body: JSON.stringify(insertPayload),
     });
-    if (!upstream.ok) return res.status(502).json({ error: "upstream_error" });
+    if (!upstream.ok) {
+      console.error("admin/create override upstream error:", upstream.status, await upstream.text());
+      return res.status(502).json({ error: "upstream_error" });
+    }
     const data = await upstream.json();
     if (!Array.isArray(data) || data.length === 0) return res.status(502).json({ error: "upstream_error" });
     res.status(200).json({ success: true, id: data[0].id, overridden: true });
   } catch (err) {
+    console.error("admin/create override path failed:", err);
     res.status(500).json({ error: "internal_error" });
   }
 };
