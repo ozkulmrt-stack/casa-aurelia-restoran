@@ -30,11 +30,15 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({ status: "cancelled" }),
     });
-    if (!upstream.ok) return res.status(502).json({ error: "upstream_error" });
+    if (!upstream.ok) {
+      console.error("admin/cancel upstream error:", upstream.status, await upstream.text().catch(() => ""));
+      return res.status(502).json({ error: "upstream_error" });
+    }
     const data = await upstream.json();
     if (!Array.isArray(data) || data.length === 0) return res.status(404).json({ error: "not_found" });
     res.status(200).json({ success: true, reservation: data[0] });
   } catch (err) {
+    console.error("admin/cancel failed:", err);
     res.status(500).json({ error: "internal_error" });
   }
 };

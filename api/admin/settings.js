@@ -34,12 +34,16 @@ module.exports = async function handler(req, res) {
       // or it stays frozen at whatever it was seeded with.
       body: JSON.stringify({ max_guests_per_slot: maxGuestsPerSlot, updated_at: new Date().toISOString() }),
     });
-    if (!upstream.ok) return res.status(502).json({ error: "upstream_error" });
+    if (!upstream.ok) {
+      console.error("admin/settings upstream error:", upstream.status, await upstream.text().catch(() => ""));
+      return res.status(502).json({ error: "upstream_error" });
+    }
     const data = await upstream.json();
     // A missed id=eq.1 (row deleted/renumbered) would otherwise be a silent 200.
     if (!Array.isArray(data) || data.length === 0) return res.status(404).json({ error: "not_found" });
     res.status(200).json({ success: true, maxGuestsPerSlot: data[0].max_guests_per_slot });
   } catch (err) {
+    console.error("admin/settings failed:", err);
     res.status(500).json({ error: "internal_error" });
   }
 };

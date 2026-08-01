@@ -27,7 +27,16 @@ module.exports = async function handler(req, res) {
       }),
     ]);
 
-    if (!reservationsRes.ok || !settingsRes.ok) return res.status(502).json({ error: "upstream_error" });
+    if (!reservationsRes.ok || !settingsRes.ok) {
+      console.error(
+        "admin/reservations upstream error:",
+        reservationsRes.status,
+        await reservationsRes.text().catch(() => ""),
+        settingsRes.status,
+        await settingsRes.text().catch(() => "")
+      );
+      return res.status(502).json({ error: "upstream_error" });
+    }
 
     const reservations = await reservationsRes.json();
     const settingsRows = await settingsRes.json();
@@ -36,6 +45,7 @@ module.exports = async function handler(req, res) {
 
     res.status(200).json({ reservations, maxGuestsPerSlot });
   } catch (err) {
+    console.error("admin/reservations failed:", err);
     res.status(500).json({ error: "internal_error" });
   }
 };
