@@ -133,3 +133,119 @@ $$;
 
 revoke all on function public.create_reservation(text, text, date, time, integer) from public;
 grant execute on function public.create_reservation(text, text, date, time, integer) to anon;
+
+-- ============================================================
+-- Telegram bildirimleri (migration: telegram_reservation_notifications)
+-- Yeni rezervasyon / iptal olduğunda pg_net ile Telegram'a mesaj atar.
+-- Token/chat id vault.secrets'ten okunur ('telegram_bot_token',
+-- 'telegram_chat_id') — burada asla açık yazılmaz.
+-- ============================================================
+
+create extension if not exists pg_net;
+
+create or replace function public.notify_telegram_reservation()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, net, vault, pg_temp
+as $$
+declare
+  v_token text;
+  v_chat_id text;
+  v_source text;
+  v_day_name text;
+  v_month_name text;
+  v_date_tr text;
+  v_time_str text;
+  v_slot_total integer;
+  v_action text;
+  v_emoji text;
+  v_text text;
+  v_reply_markup jsonb;
+  v_row public.reservations%rowtype;
+begin
+  select decrypted_secret into v_token from vault.decrypted_secrets where name = 'telegram_bot_token';
+  select decrypted_secret into v_chat_id from vault.decrypted_secrets where name = 'telegram_chat_id';
+
+  if v_token is null or v_chat_id is null then
+    return new;
+  end if;
+
+  v_row := new;
+  v_action := case when tg_op = 'INSERT' then 'insert' else 'cancel' end;
+
+  v_source := case coalesce(current_setting('request.jwt.claims', true)::jsonb->>'role', '')
+    when 'service_role' then 'Admin paneli'
+    when 'anon' then 'Web sitesi'
+    else 'Bilinmiyor'
+  end;
+
+  v_day_name := (array['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'])[extract(dow from v_row.reservation_date)::int + 1];
+  v_month_name := (array['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'])[extract(month from v_row.reservation_date)::int];
+  v_date_tr := extract(day from v_row.reservation_date)::text || ' ' || v_month_name || ' ' || extract(year from v_row.reservation_date)::text || ' ' || v_day_name;
+  v_time_str := to_char(v_row.reservation_time, 'HH24:MI');
+
+  select coalesce(sum(party_size), 0) into v_slot_total
+  from public.reservations
+  where reservation_date = v_row.reservation_date
+    and reservation_time = v_row.reservation_time
+    and status = 'confirmed';
+
+  if v_action = 'insert' then
+    v_emoji := '🍝';
+    v_text := v_emoji || ' *Yeni Rezervasyon*' || E'\n\n'
+      || '👤 ' || v_row.customer_name || E'\n'
+      || '📞 ' || v_row.phone || E'\n'
+      || '📅 ' || v_date_tr || E'\n'
+      || '🕗 ' || v_time_str || E'\n'
+      || '👥 ' || v_row.party_size || ' kişi' || E'\n'
+      || '📍 Kaynak: ' || v_source || E'\n'
+      || '📊 Bu slotta toplam: ' || v_slot_total || ' kişi';
+    v_reply_markup := jsonb_build_object(
+      'inline_keyboard', jsonb_build_array(
+        jsonb_build_array(
+          jsonb_build_object('text', '❌ İptal Et', 'callback_data', 'cancel:' || v_row.id::text)
+        )
+      )
+    );
+  else
+    v_emoji := '🚫';
+    v_text := v_emoji || ' *Rezervasyon İptal Edildi*' || E'\n\n'
+      || '👤 ' || v_row.customer_name || E'\n'
+      || '📞 ' || v_row.phone || E'\n'
+      || '📅 ' || v_date_tr || E'\n'
+      || '🕗 ' || v_time_str || E'\n'
+      || '👥 ' || v_row.party_size || ' kişi' || E'\n'
+      || '📍 Kaynak: ' || v_source;
+    v_reply_markup := null;
+  end if;
+
+  perform net.http_post(
+    url := 'https://api.telegram.org/bot' || v_token || '/sendMessage',
+    body := jsonb_build_object(
+      'chat_id', v_chat_id,
+      'text', v_text,
+      'parse_mode', 'Markdown',
+      'reply_markup', v_reply_markup
+    ),
+    headers := jsonb_build_object('Content-Type', 'application/json')
+  );
+
+  return new;
+exception when others then
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_notify_telegram_insert on public.reservations;
+create trigger trg_notify_telegram_insert
+  after insert on public.reservations
+  for each row
+  execute function public.notify_telegram_reservation();
+
+drop trigger if exists trg_notify_telegram_cancel on public.reservations;
+create trigger trg_notify_telegram_cancel
+  after update of status on public.reservations
+  for each row
+  when (old.status is distinct from new.status and new.status = 'cancelled')
+  execute function public.notify_telegram_reservation();
