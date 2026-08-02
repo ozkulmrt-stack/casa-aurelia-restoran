@@ -1,51 +1,33 @@
-// Shared Basic-auth check for admin endpoints (email + password).
+// Shared auth check for admin endpoints, backed by Supabase Auth.
 //
-// Security notes (see plan for full reasoning):
-// - Single SHA-256 digest over "email\0password" (not two separate
-//   timingSafeEqual calls) so a short-circuiting && can't leak which half
-//   was wrong via timing.
-// - Both ADMIN_EMAIL and ADMIN_PASSWORD must be non-empty, or auth is
-//   unconditionally denied — otherwise an unset ADMIN_EMAIL lets an
-//   attacker send "Basic base64(':' + password)" and pass the email half
-//   via matching empty-string hashes.
-// - Both sides run through NFC normalization: Turkish input is a real
-//   trap here ('İ'.toLowerCase() → 'i' + U+0307 combining dot, and macOS
-//   can hand over NFD-composed text either way).
-const crypto = require("crypto");
+// The client signs in against Supabase's password grant and sends the
+// resulting access token as "Authorization: Bearer <token>". We verify it
+// by asking Supabase's own /auth/v1/user endpoint to resolve it — this
+// avoids needing the JWT signing secret locally and stays correct across
+// Supabase's own token rotation/expiry rules.
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-function parseBasicAuth(header) {
-  const match = /^Basic\s+(.+)$/.exec(header || "");
-  if (!match) return null;
-  let decoded;
-  try {
-    decoded = Buffer.from(match[1], "base64").toString("utf8");
-  } catch {
-    return null;
-  }
-  const sep = decoded.indexOf(":");
-  if (sep === -1) return null;
-  // Per RFC 7617, only the userid is colon-free; the password may contain
-  // colons, so split on the FIRST colon only.
-  return {
-    email: decoded.slice(0, sep),
-    password: decoded.slice(sep + 1),
-  };
+function parseBearerToken(header) {
+  const match = /^Bearer\s+(.+)$/.exec(header || "");
+  return match ? match[1] : null;
 }
 
-function isAuthorized(req) {
-  const creds = parseBasicAuth(req.headers["authorization"]);
-  if (!creds) return false;
+async function isAuthorized(req) {
+  const token = parseBearerToken(req.headers["authorization"]);
+  if (!token || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return false;
 
-  const expectedEmail = (process.env.ADMIN_EMAIL || "").trim().toLowerCase().normalize("NFC");
-  const expectedPassword = (process.env.ADMIN_PASSWORD || "").normalize("NFC");
-  if (!expectedEmail || !expectedPassword) return false;
-
-  const providedEmail = creds.email.trim().toLowerCase().normalize("NFC");
-  const providedPassword = creds.password.normalize("NFC");
-
-  const provided = crypto.createHash("sha256").update(`${providedEmail}\0${providedPassword}`).digest();
-  const target = crypto.createHash("sha256").update(`${expectedEmail}\0${expectedPassword}`).digest();
-  return crypto.timingSafeEqual(provided, target);
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
 }
 
 module.exports = { isAuthorized };

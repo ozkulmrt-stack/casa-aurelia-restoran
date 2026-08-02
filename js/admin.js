@@ -1,6 +1,12 @@
 // ===== Casa Aurelia — Service Book (admin panel) =====
 const ADMIN_AUTH_KEY = "casaAureliaAdminAuth";
 const SLOT_TIMES = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
+// Same public anon key used by js/reservation.js — safe to expose, it only
+// grants what Supabase's password grant itself allows (sign-in as a known
+// user), everything else stays behind RLS/service_role.
+const SUPABASE_URL = "https://abmvrreeirrczjxzakyb.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFibXZycmVlaXJyY3pqeHpha3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0OTM2MzMsImV4cCI6MjEwMTA2OTYzM30.-SNarzPcRD5POIOCh-Vp5yF_c0qakSOlhoOfU-NxXq0";
 
 (function adminPanel() {
   const loginSection = document.getElementById("adminLogin");
@@ -73,14 +79,22 @@ const SLOT_TIMES = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
       "'": "&#39;",
     }[c]));
 
-  function buildAuthHeader(email, password) {
-    const bytes = new TextEncoder().encode(`${email}:${password}`);
-    const binary = String.fromCharCode(...bytes);
-    return "Basic " + btoa(binary);
+  async function signIn(email, password) {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method: "POST",
+      headers: { apikey: SUPABASE_ANON_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.access_token || null;
   }
 
-  const getAuthHeader = () => sessionStorage.getItem(ADMIN_AUTH_KEY);
-  const setAuthHeader = (h) => sessionStorage.setItem(ADMIN_AUTH_KEY, h);
+  const getAuthHeader = () => {
+    const token = sessionStorage.getItem(ADMIN_AUTH_KEY);
+    return token ? `Bearer ${token}` : null;
+  };
+  const setAuthToken = (token) => sessionStorage.setItem(ADMIN_AUTH_KEY, token);
   const clearAuthHeader = () => sessionStorage.removeItem(ADMIN_AUTH_KEY);
 
   // ---------- view state ----------
@@ -230,14 +244,21 @@ const SLOT_TIMES = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
   }
 
   // ---------- login ----------
-  loginForm.addEventListener("submit", (e) => {
+  loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = emailInput.value.trim();
     const password = passwordInput.value;
     if (!email || !password) return;
-    setAuthHeader(buildAuthHeader(email, password));
-    showPanel();
-    loadAndRender();
+    loginError.hidden = true;
+    try {
+      const token = await signIn(email, password);
+      if (!token) return showLogin("Incorrect email or password.");
+      setAuthToken(token);
+      showPanel();
+      loadAndRender();
+    } catch (err) {
+      showLogin("Network error — please try again.");
+    }
   });
 
   logoutBtn.addEventListener("click", () => showLogin());
