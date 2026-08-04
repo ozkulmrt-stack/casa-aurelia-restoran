@@ -252,8 +252,7 @@ create trigger trg_notify_telegram_cancel
 
 -- ============================================================
 -- Rezervasyona e-posta alanı (migration: add_reservation_email)
--- ⚠️ HENÜZ CANLIYA UYGULANMADI — yalnızca hazırlanmış SQL. Deploy kararı
--- verildiğinde Supabase MCP ile uygulanacak, sonra bu uyarı satırı silinecek.
+-- Uygulandı: 2026-08-04, Supabase MCP ile.
 --
 -- create_reservation() bir aşırı yükleme (overload) olarak değil, tamamen
 -- yeniden yaratılıyor: `create or replace` parametre eklemeye izin vermez —
