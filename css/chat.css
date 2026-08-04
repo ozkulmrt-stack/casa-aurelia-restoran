@@ -1,0 +1,161 @@
+/* ===========================================================
+   Chat widget — reuses the design tokens from css/style.css
+   =========================================================== */
+
+.chat-launcher {
+  position: fixed;
+  bottom: calc(var(--space-3) + 4rem);
+  right: var(--space-3);
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--verde-fondo);
+  color: var(--crema);
+  box-shadow: 0 6px 20px rgba(11, 26, 19, 0.4);
+  cursor: pointer;
+  transition: background var(--ease) 0.2s, transform var(--ease) 0.2s;
+}
+.chat-launcher:hover { background: var(--verde-linea); transform: translateY(-2px); }
+.chat-launcher svg { width: 22px; height: 22px; }
+
+.chat-panel {
+  position: fixed;
+  inset: auto var(--space-3) calc(var(--space-3) + 8rem) var(--space-3);
+  margin-left: auto;
+  width: min(360px, calc(100vw - 2 * var(--space-3)));
+  max-height: min(560px, calc(100dvh - 12rem));
+  z-index: 96;
+  display: flex;
+  flex-direction: column;
+  background: var(--verde-fondo);
+  border: 1px solid var(--verde-linea);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 50px rgba(11, 26, 19, 0.5);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity var(--ease) 0.25s, transform var(--ease) 0.25s;
+}
+.chat-panel.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chat-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--verde-linea);
+  font-family: var(--font-display);
+  color: var(--oro-chiaro);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.chat-close {
+  background: none;
+  border: none;
+  color: var(--salvia);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+.chat-close:hover { color: var(--crema); }
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.chat-bubble {
+  max-width: 85%;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius);
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.chat-bubble--assistant {
+  align-self: flex-start;
+  background: var(--verde-notte);
+  color: var(--crema);
+  border: 1px solid var(--verde-linea);
+}
+.chat-bubble--user {
+  align-self: flex-end;
+  background: var(--oro);
+  color: var(--verde-notte);
+}
+.chat-bubble--typing {
+  color: var(--salvia);
+  font-style: italic;
+}
+
+.chat-reserve-btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+  background: var(--oro);
+  color: var(--verde-notte);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.4rem 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.chat-reserve-btn:hover { background: var(--oro-chiaro); }
+
+.chat-form {
+  display: flex;
+  gap: 0.5rem;
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--verde-linea);
+}
+
+.chat-input {
+  flex: 1;
+  background: var(--verde-notte);
+  border: 1px solid var(--verde-linea);
+  border-radius: var(--radius);
+  color: var(--crema);
+  padding: 0.5rem 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+}
+.chat-input:focus { outline: 1px solid var(--oro); }
+.chat-input:disabled { opacity: 0.6; }
+
+.chat-send {
+  background: var(--oro);
+  color: var(--verde-notte);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.chat-send:hover:not(:disabled) { background: var(--oro-chiaro); }
+.chat-send:disabled { opacity: 0.6; cursor: default; }
+
+@media (max-width: 480px) {
+  .chat-panel {
+    inset: auto var(--space-2) calc(var(--space-2) + 8rem) var(--space-2);
+    width: calc(100vw - 2 * var(--space-2));
+  }
+  .chat-launcher { bottom: calc(var(--space-2) + 4rem); right: var(--space-2); }
+}

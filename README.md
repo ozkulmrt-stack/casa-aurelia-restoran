@@ -60,6 +60,26 @@ https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://<site-domaini>/api/te
 
 **Bildirim gelmiyorsa:** Supabase SQL Editor'de `select * from net._http_response order by created desc limit 5;` çalıştırıp Telegram'ın döndüğü hatayı (yanlış token/chat id vb.) kontrol et.
 
+## Sohbet asistanı (chatbot)
+
+Sağ altta açılan sohbet widget'ı, OpenAI'ın `gpt-5-mini` modeliyle menü/saat/adres/SSS sorularını cevaplıyor ve rezervasyon niyeti algılarsa kullanıcıyı sitedeki forma yönlendiriyor (kendisi rezervasyon oluşturmuyor). Hiçbir mesaj içeriği sunucuda saklanmıyor veya loglanmıyor.
+
+**Nasıl çalışıyor:**
+- Bilgi tabanı [api/_knowledge.js](api/_knowledge.js) içinde — menü, saatler, adres, SSS. Menü veya fiyat değişirse bu dosyayı, `index.html`'deki JSON-LD bloğunu (satır ~32) ve görünür menü HTML'ini (satır ~241) birlikte güncelle.
+- İstek/cevap mantığı [api/chat.js](api/chat.js) adlı Vercel serverless fonksiyonunda; OpenAI'a `fetch` ile bağlanıyor, SDK yok.
+- İstemci tarafı [js/chat.js](js/chat.js) — konuşma geçmişi sadece tarayıcı belleğinde, sayfa yenilenince silinir.
+
+**Gerekli Vercel env değişkeni** (Project Settings → Environment Variables):
+- `OPENAI_API_KEY`
+
+**Localde test etmek için** `.env.local` dosyasına `OPENAI_API_KEY=...` yaz (bu dosya `.gitignore`'da), sonra:
+
+```
+node --env-file=.env.local .claude/tools/dev-server.js
+```
+
+Bu, `.claude/tools/dev-server.js` içindeki minimal geliştirme sunucusunu (statik dosyalar + `/api/*` fonksiyonları) `http://localhost:3000`'de ayağa kaldırır — Vercel CLI login gerektirmez, sadece local doğrulama içindir.
+
 ## Yapı
 
 ```
