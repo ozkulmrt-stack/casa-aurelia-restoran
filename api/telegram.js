@@ -31,7 +31,7 @@ async function fetchReservationsForDate(supabaseUrl, serviceKey, dateStr) {
   const url =
     `${supabaseUrl}/rest/v1/reservations?reservation_date=eq.${dateStr}` +
     `&status=eq.confirmed&order=reservation_time.asc` +
-    `&select=id,customer_name,phone,reservation_time,party_size`;
+    `&select=id,customer_name,phone,email,reservation_time,party_size`;
   const res = await fetch(url, {
     headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` },
   });
@@ -44,7 +44,8 @@ function formatReservationList(dateStr, rows) {
   if (rows.length === 0) return `${header}\n\nBu tarihte rezervasyon yok.`;
   const total = rows.reduce((sum, r) => sum + r.party_size, 0);
   const lines = rows.map(
-    (r) => `🕗 ${r.reservation_time.slice(0, 5)} — ${r.customer_name} (${r.party_size} kişi) 📞 ${r.phone}`
+    (r) =>
+      `🕗 ${r.reservation_time.slice(0, 5)} — ${r.customer_name} (${r.party_size} kişi) 📞 ${r.phone} 📧 \`${r.email || "—"}\``
   );
   return `${header} — toplam ${total} kişi\n\n${lines.join("\n")}`;
 }

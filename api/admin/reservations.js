@@ -10,7 +10,7 @@ module.exports = async function handler(req, res) {
 
   const dateFilter = typeof req.query.date === "string" ? req.query.date : null;
   const params = new URLSearchParams();
-  params.set("select", "id,customer_name,phone,reservation_date,reservation_time,party_size,status,created_at");
+  params.set("select", "id,customer_name,phone,email,reservation_date,reservation_time,party_size,status,created_at");
   params.set("order", "reservation_date.asc,reservation_time.asc");
   params.set(
     "reservation_date",

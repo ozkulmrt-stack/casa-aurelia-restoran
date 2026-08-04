@@ -213,6 +213,26 @@ a:focus-visible, button:focus-visible {
 }
 .nav__links a:hover::after { width: 100%; }
 
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--salvia);
+}
+.lang-switch a { transition: color 0.2s var(--ease); }
+.lang-switch a:hover,
+.lang-switch a[aria-current="true"] { color: var(--oro); }
+.lang-switch--mobile {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--verde-linea);
+  text-transform: none;
+  letter-spacing: 0.08em;
+}
+
 .nav__toggle {
   display: none;
   position: relative;

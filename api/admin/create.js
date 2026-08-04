@@ -7,6 +7,7 @@ const { isAuthorized } = require("./_auth");
 // and the room can be silently overbooked while the RPC still reports space.
 const VALID_TIMES = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "method_not_allowed" });
@@ -28,6 +29,7 @@ module.exports = async function handler(req, res) {
 
   const name = typeof body.name === "string" ? body.name.trim() : "";
   const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+  const email = typeof body.email === "string" ? body.email.trim() : "";
   const date = typeof body.date === "string" ? body.date : "";
   const time = typeof body.time === "string" ? body.time : "";
   const partySize = Number(body.partySize);
@@ -35,6 +37,9 @@ module.exports = async function handler(req, res) {
 
   if (!name || name.length > 100) return res.status(400).json({ error: "invalid_name" });
   if (!phone || phone.length > 30) return res.status(400).json({ error: "invalid_phone" });
+  if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
+    return res.status(400).json({ error: "invalid_email" });
+  }
   if (!DATE_RE.test(date)) return res.status(400).json({ error: "invalid_date" });
   if (!VALID_TIMES.includes(time)) return res.status(400).json({ error: "invalid_time" });
   if (!Number.isInteger(partySize) || partySize < 1 || partySize > 20) {
@@ -51,6 +56,7 @@ module.exports = async function handler(req, res) {
         body: JSON.stringify({
           p_name: name,
           p_phone: phone,
+          p_email: email,
           p_date: date,
           p_time: time,
           p_party_size: partySize,
@@ -77,6 +83,7 @@ module.exports = async function handler(req, res) {
   const insertPayload = {
     customer_name: name,
     phone,
+    email,
     reservation_date: date,
     reservation_time: time,
     party_size: partySize,

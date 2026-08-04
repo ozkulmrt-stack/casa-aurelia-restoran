@@ -9,6 +9,7 @@
   const sendBtn = document.getElementById("chatSend");
   if (!launcher || !panel || !form || !input || !messagesEl) return;
 
+  const t = window.I18N;
   const MAX_TURNS = 20;
   let messages = []; // in-memory only — never written to storage
   let isOpen = false;
@@ -21,10 +22,7 @@
     requestAnimationFrame(() => panel.classList.add("is-open"));
     input.focus();
     if (messages.length === 0) {
-      addBubble(
-        "assistant",
-        "Merhaba! Casa Aurelia hakkında menü, saatler, adres veya rezervasyon hakkında soru sorabilirsiniz."
-      );
+      addBubble("assistant", t.chatGreeting);
     }
   }
 
@@ -71,7 +69,7 @@
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "chat-reserve-btn";
-    btn.textContent = "Masa Ayırt";
+    btn.textContent = t.chatReserveBtn;
     btn.addEventListener("click", () => {
       fillReservationForm(reservation);
       close();
@@ -116,10 +114,7 @@
       typing.remove();
 
       if (!res.ok || !data.reply) {
-        addBubble(
-          "assistant",
-          "Şu anda cevap veremiyorum — bize +90 212 123 45 67 numarasından ulaşabilirsiniz."
-        );
+        addBubble("assistant", t.chatError);
         return;
       }
 

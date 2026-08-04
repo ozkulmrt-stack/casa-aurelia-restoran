@@ -361,6 +361,17 @@
   flex-shrink: 0;
   letter-spacing: 0.02em;
 }
+.guest-row__email {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--salvia);
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .guest-row__cancel {
   font-family: var(--font-sans);
   font-size: 1rem;
@@ -507,7 +518,8 @@
   .admin-summary,
   .slot__count,
   .guest-row__party,
-  .guest-row__phone { color: #555; }
+  .guest-row__phone,
+  .guest-row__email { color: #555; }
   .admin-panel__title,
   .admin-datebar__label,
   .slot__time,

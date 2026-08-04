@@ -37,6 +37,7 @@ const SUPABASE_ANON_KEY =
   const addForm = document.getElementById("addForm");
   const addName = document.getElementById("addName");
   const addPhone = document.getElementById("addPhone");
+  const addEmail = document.getElementById("addEmail");
   const addDate = document.getElementById("addDate");
   const addTime = document.getElementById("addTime");
   const addParty = document.getElementById("addParty");
@@ -155,7 +156,8 @@ const SUPABASE_ANON_KEY =
     if (!q) return true;
     return (
       String(r.customer_name).toLowerCase().includes(q) ||
-      String(r.phone).toLowerCase().includes(q)
+      String(r.phone).toLowerCase().includes(q) ||
+      String(r.email || "").toLowerCase().includes(q)
     );
   }
 
@@ -214,6 +216,7 @@ const SUPABASE_ANON_KEY =
               <span class="guest-row__name">${escapeHtml(r.customer_name)}</span>
               <span class="guest-row__party">${escapeHtml(r.party_size)}</span>
               <span class="guest-row__phone">${escapeHtml(r.phone)}</span>
+              <span class="guest-row__email">${escapeHtml(r.email || "—")}</span>
               ${
                 cancelled
                   ? '<span class="guest-row__cancelled-tag">Cancelled</span>'
@@ -372,6 +375,7 @@ const SUPABASE_ANON_KEY =
   const ADD_ERROR_MESSAGES = {
     invalid_name: "Please enter a name.",
     invalid_phone: "Please enter a phone number.",
+    invalid_email: "Please enter a valid email address.",
     invalid_party_size: "Guests must be between 1 and 20.",
     invalid_date: "That date is outside the booking window.",
     invalid_time: "Please choose a time.",
@@ -404,6 +408,7 @@ const SUPABASE_ANON_KEY =
     const payload = {
       name: addName.value,
       phone: addPhone.value,
+      email: addEmail.value,
       date: addDate.value,
       time: addTime.value,
       partySize: Number(addParty.value),
@@ -457,11 +462,12 @@ const SUPABASE_ANON_KEY =
   // ---------- CSV ----------
   csvBtn.addEventListener("click", () => {
     const visible = reservations.filter(matchesFilters);
-    const header = ["Time", "Name", "Phone", "Guests", "Status"];
+    const header = ["Time", "Name", "Phone", "Email", "Guests", "Status"];
     const rows = visible.map((r) => [
       r.reservation_time.slice(0, 5),
       r.customer_name,
       r.phone,
+      r.email || "",
       String(r.party_size),
       r.status,
     ]);

@@ -1,11 +1,29 @@
-// ===== EDIT HERE: WhatsApp number and default message =====
+// ===== EDIT HERE: WhatsApp number =====
 const WHATSAPP_NUMBER = "902121234567"; // international format, no + or spaces
-const WHATSAPP_MESSAGE = "Good evening, I'd like to reserve a table at Casa Aurelia.";
 
 (function setupWhatsapp() {
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(window.I18N.whatsappMessage)}`;
   document.getElementById("whatsappBtnMain")?.setAttribute("href", url);
   document.getElementById("whatsappBtnSticky")?.setAttribute("href", url);
+})();
+
+// ===== Language switcher: preserve current section anchor, mark active lang =====
+(function langSwitch() {
+  const currentLang = document.documentElement.lang;
+  const links = document.querySelectorAll(".lang-switch a[data-lang]");
+  links.forEach((a) => {
+    if (a.dataset.lang === currentLang) a.setAttribute("aria-current", "true");
+    // Read location.hash at click time, not at page load — a same-document
+    // hash change (nav link, scroll spy) doesn't re-run this deferred script,
+    // so the href must be computed fresh on every click to stay in sync.
+    a.addEventListener("click", (e) => {
+      const hash = window.location.hash;
+      if (hash) {
+        e.preventDefault();
+        window.location.href = a.getAttribute("href") + hash;
+      }
+    });
+  });
 })();
 
 // ===== Nav scroll state =====

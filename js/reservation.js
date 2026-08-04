@@ -8,24 +8,14 @@ const SUPABASE_ANON_KEY =
 const BOOKING_WINDOW_DAYS = 60;
 const CLOSED_WEEKDAY = 1; // Date#getDay(): 0=Sun..6=Sat, 1=Monday
 
-const RESERVATION_ERROR_MESSAGES = {
-  invalid_name: "Please enter your name.",
-  invalid_phone: "Please enter a valid phone number.",
-  invalid_party_size: "Please choose the number of guests.",
-  invalid_date: "Please choose a valid date.",
-  invalid_time: "Please choose a valid time.",
-  closed: "We're closed on Mondays — please pick another day.",
-  full: "That time is fully booked — please choose another slot, or reach us via WhatsApp.",
-};
-const RESERVATION_GENERIC_ERROR =
-  "Something went wrong — please try again, or reach us via WhatsApp.";
-
 (function reservationForm() {
   const form = document.getElementById("reservationForm");
   if (!form) return;
 
+  const t = window.I18N;
   const nameInput = document.getElementById("resName");
   const phoneInput = document.getElementById("resPhone");
+  const emailInput = document.getElementById("resEmail");
   const dateInput = document.getElementById("resDate");
   const timeSelect = document.getElementById("resTime");
   const partySelect = document.getElementById("resParty");
@@ -63,7 +53,7 @@ const RESERVATION_GENERIC_ERROR =
     const [y, m, d] = dateInput.value.split("-").map(Number);
     const picked = new Date(y, m - 1, d);
     if (picked.getDay() === CLOSED_WEEKDAY) {
-      showError("We're closed on Mondays — please pick another day.");
+      showError(t.reservationMondayError);
     } else {
       clearError();
     }
@@ -79,12 +69,12 @@ const RESERVATION_GENERIC_ERROR =
 
     const [y, m, d] = dateInput.value.split("-").map(Number);
     if (new Date(y, m - 1, d).getDay() === CLOSED_WEEKDAY) {
-      showError("We're closed on Mondays — please pick another day.");
+      showError(t.reservationMondayError);
       return;
     }
 
     submitBtn.disabled = true;
-    submitBtn.textContent = "Sending…";
+    submitBtn.textContent = t.reservationSending;
 
     try {
       const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/create_reservation`, {
@@ -97,6 +87,7 @@ const RESERVATION_GENERIC_ERROR =
         body: JSON.stringify({
           p_name: nameInput.value,
           p_phone: phoneInput.value,
+          p_email: emailInput.value,
           p_date: dateInput.value,
           p_time: timeSelect.value,
           p_party_size: Number(partySelect.value),
@@ -106,23 +97,20 @@ const RESERVATION_GENERIC_ERROR =
       const data = await response.json();
 
       if (data && data.success) {
-        showFeedback(
-          "✓ Your table is reserved. We look forward to seeing you!",
-          "success"
-        );
+        showFeedback(t.reservationSuccess, "success");
         form.reset();
       } else {
         const reason = data && data.reason;
         showFeedback(
-          RESERVATION_ERROR_MESSAGES[reason] || RESERVATION_GENERIC_ERROR,
+          t.reservationErrors[reason] || t.reservationGenericError,
           "error"
         );
       }
     } catch (err) {
-      showFeedback(RESERVATION_GENERIC_ERROR, "error");
+      showFeedback(t.reservationGenericError, "error");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = "Reserve Table";
+      submitBtn.textContent = t.reservationSubmitLabel;
     }
   });
 })();

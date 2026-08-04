@@ -18,8 +18,8 @@
   const hint = document.getElementById("heroHint");
 
   const VARIANTS = {
-    desktop: { src: "assets/hero-scrub.v1.mp4", fps: 24 },
-    mobile: { src: "assets/hero-scrub-mobile.v1.mp4", fps: 20 },
+    desktop: { src: "/assets/hero-scrub.v1.mp4", fps: 24 },
+    mobile: { src: "/assets/hero-scrub-mobile.v1.mp4", fps: 20 },
   };
   // Created ONCE for the page lifetime — re-creating a matchMedia object per
   // init/teardown cycle would leave orphaned "change" listeners behind on

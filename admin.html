@@ -56,7 +56,7 @@
   <p class="admin-summary" id="summaryLine"></p>
 
   <div class="admin-toolbar">
-    <input type="search" id="searchInput" class="admin-search" placeholder="Search name or phone">
+    <input type="search" id="searchInput" class="admin-search" placeholder="Search name, phone or email">
     <label class="admin-checkbox">
       <input type="checkbox" id="showCancelled">
       <span>Show cancelled</span>
@@ -88,6 +88,10 @@
     <div class="admin-field">
       <label for="addPhone">Phone</label>
       <input type="tel" id="addPhone" required maxlength="30">
+    </div>
+    <div class="admin-field">
+      <label for="addEmail">Email</label>
+      <input type="email" id="addEmail" required maxlength="254">
     </div>
     <div class="admin-field-row">
       <div class="admin-field">
