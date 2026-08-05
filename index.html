@@ -139,16 +139,17 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Jost:wght@400&display=swap">
   <style>[data-reveal]{opacity:1 !important;transform:none !important;}</style>
 </noscript>
-<!-- Motion stack: self-hosted, deferred, order-critical.
-     smooth-scroll.js registers ScrollTrigger + publishes window.__lenis;
-     hero-scrub.js depends on both, so it must load after. main.js is last
-     so its heroParallax()-free IIFEs still run after DOM is complete. -->
+<!-- Motion stack: self-hosted, deferred.
+     smooth-scroll.js registers ScrollTrigger + publishes window.__lenis, used
+     for in-page anchor scrolling. hero-video.js is independent of it — the
+     hero video autoplays natively via HTML attributes. main.js is last so
+     its IIFEs still run after DOM is complete. -->
 <script defer src="/js/i18n.js"></script>
 <script defer src="/js/vendor/gsap-3.13.0.min.js"></script>
 <script defer src="/js/vendor/ScrollTrigger-3.13.0.min.js"></script>
 <script defer src="/js/vendor/lenis-1.3.11.min.js"></script>
 <script defer src="/js/smooth-scroll.js"></script>
-<script defer src="/js/hero-scrub.js"></script>
+<script defer src="/js/hero-video.js"></script>
 <script defer src="/js/main.js"></script>
 <script defer src="/js/reservation.js"></script>
 <script defer src="/js/chat.js"></script>
@@ -192,15 +193,18 @@
 
 <main id="main">
 
-<!-- ===== HERO — scroll-scrubbed video ===== -->
-<!-- No src / no <source>: hero-scrub.js picks the 16:9 or 9:16 file via
-     matchMedia before assigning, so only ONE file is ever downloaded.
-     No poster, no autoplay, no controls, no loop by design — if JS or the
-     video fails, CSS falls back to a normal one-screen hero (see .hero). -->
-<section class="hero" id="top" data-hero-scrub>
+<!-- ===== HERO — autoplaying background video ===== -->
+<!-- Native <source media> picks the 16:9 or 9:16 file, so only ONE file is
+     ever downloaded and autoplay works with no JS at all. No poster (never
+     an image) — if the video fails, CSS falls back to a normal one-screen
+     hero in the flat brand colour (see .hero__video background). -->
+<section class="hero" id="top">
   <div class="hero__stage">
-    <video class="hero__video" id="heroVideo" muted playsinline webkit-playsinline
-           preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline webkit-playsinline
+           preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1">
+      <source src="/assets/hero-scrub-mobile.v1.mp4" media="(max-width: 768px)">
+      <source src="/assets/hero-scrub.v1.mp4">
+    </video>
     <div class="hero__scrim" aria-hidden="true"></div>
     <div class="hero__loading" id="heroLoading" aria-hidden="true"><span></span></div>
     <div class="hero__content">

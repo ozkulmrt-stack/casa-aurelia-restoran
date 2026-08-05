@@ -1,8 +1,7 @@
 // ===== Global smooth-scroll provider =====
 // Owns three things: GSAP/ScrollTrigger plugin registration, the ONE shared
 // clock (Lenis driven by gsap.ticker — never a second rAF loop), and anchor
-// link routing. hero-scrub.js depends on ScrollTrigger being registered and
-// on window.__lenis existing, so this file's <script> tag must come first.
+// link routing.
 (function smoothScrollProvider() {
   "use strict";
 
@@ -26,8 +25,8 @@
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
   }
-  // Exposed so hero-scrub.js (and anyone else) can tell whether Lenis is driving
-  // scroll right now; null means "native scroll, act accordingly".
+  // Exposed so other scripts can tell whether Lenis is driving scroll right
+  // now; null means "native scroll, act accordingly".
   window.__lenis = lenis;
 
   // ===== Anchor routing =====

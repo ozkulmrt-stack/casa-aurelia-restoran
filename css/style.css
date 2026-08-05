@@ -282,31 +282,23 @@ a:focus-visible, button:focus-visible {
 .nav-mobile a { padding: 0.6rem 0; }
 
 /* ===========================================================
-   Hero — scroll-scrubbed video
+   Hero — autoplaying background video
    =========================================================== */
-/* DEFAULT is the safe state: a normal one-screen hero. The 500vh scroll rig
-   is opt-in via .hero--scrub, which hero-scrub.js adds ONLY after it has
-   successfully created the ScrollTrigger. Consequence: no-JS, GSAP 404,
-   video error and reduced-motion all degrade to this same static hero. */
+/* DEFAULT is the safe state: the flat brand colour on .hero__video. Video
+   attributes (autoplay muted loop playsinline) do the rest natively, so it
+   still plays even if hero-video.js never runs. no-JS, video error and
+   reduced-motion all degrade to this same static one-screen hero. */
 .hero {
   position: relative;
   height: 100vh;
   height: 100svh;
 }
-.hero--scrub { height: 500vh; }
-@media (max-width: 768px) {
-  .hero--scrub { height: 320vh; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero--scrub { height: 100vh; height: 100svh; }
-}
 
 .hero__stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -382,8 +374,11 @@ a:focus-visible, button:focus-visible {
   width: 1px;
   height: 50px;
   background: rgba(239,233,220,0.25);
+  opacity: 1;
+  transition: opacity 0.5s var(--ease);
   will-change: opacity;
 }
+.hero__scrolldown.is-hidden { opacity: 0; }
 .hero__scrolldown span {
   position: absolute;
   top: 0; left: -1.5px;
