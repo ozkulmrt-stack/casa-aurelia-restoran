@@ -177,6 +177,10 @@
   cursor: pointer;
 }
 .admin-datebar__input:focus { outline: none; color: var(--oro); }
+.admin-datebar__input::-webkit-calendar-picker-indicator {
+  filter: invert(84%) sepia(53%) saturate(450%) hue-rotate(334deg) brightness(72%) contrast(131%);
+  cursor: pointer;
+}
 .admin-today-btn { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
 
 .admin-summary {
@@ -469,6 +473,10 @@
 }
 .admin-modal .admin-field input:focus,
 .admin-modal .admin-field select:focus { outline: none; border-color: var(--oro); }
+.admin-modal .admin-field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(84%) sepia(53%) saturate(450%) hue-rotate(334deg) brightness(72%) contrast(131%);
+  cursor: pointer;
+}
 .admin-field-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
