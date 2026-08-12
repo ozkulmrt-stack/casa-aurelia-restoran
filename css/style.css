@@ -645,6 +645,10 @@ a:focus-visible, button:focus-visible {
   border-color: var(--oro);
 }
 .form-field select { appearance: auto; }
+.form-field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(84%) sepia(53%) saturate(450%) hue-rotate(334deg) brightness(72%) contrast(131%);
+  cursor: pointer;
+}
 
 .form-error {
   color: #e08585;
