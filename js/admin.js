@@ -68,7 +68,7 @@ const SUPABASE_ANON_KEY =
   function formatDateLabel(iso) {
     const [y, m, d] = iso.split("-").map(Number);
     const date = new Date(y, m - 1, d);
-    return date.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    return date.toLocaleDateString("tr-TR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   }
 
   const escapeHtml = (str) =>
@@ -128,14 +128,14 @@ const SUPABASE_ANON_KEY =
     const auth = getAuthHeader();
     if (!auth) return showLogin();
 
-    statusLine.textContent = "Loading…";
+    statusLine.textContent = "Yükleniyor…";
     try {
       const res = await fetch(`/api/admin/reservations?date=${encodeURIComponent(selectedDate)}`, {
         headers: { Authorization: auth },
       });
-      if (res.status === 401) return showLogin("Incorrect email or password.");
+      if (res.status === 401) return showLogin("E-posta veya şifre hatalı.");
       if (!res.ok) {
-        statusLine.textContent = "Failed to load reservations. Please try again.";
+        statusLine.textContent = "Rezervasyonlar yüklenemedi. Lütfen tekrar deneyin.";
         return;
       }
       const data = await res.json();
@@ -145,7 +145,7 @@ const SUPABASE_ANON_KEY =
       statusLine.textContent = "";
       renderAll();
     } catch (err) {
-      statusLine.textContent = "Network error — please try again.";
+      statusLine.textContent = "Ağ hatası — lütfen tekrar deneyin.";
     }
   }
 
@@ -171,9 +171,7 @@ const SUPABASE_ANON_KEY =
     const totalGuests = confirmed.reduce((sum, r) => sum + Number(r.party_size || 0), 0);
     const capacityTotal = maxGuestsPerSlot != null ? maxGuestsPerSlot * SLOT_TIMES.length : null;
     const pct = capacityTotal ? Math.round((totalGuests / capacityTotal) * 100) : 0;
-    const resWord = confirmed.length === 1 ? "reservation" : "reservations";
-    const guestWord = totalGuests === 1 ? "guest" : "guests";
-    summaryLine.textContent = `${confirmed.length} ${resWord} · ${totalGuests} ${guestWord} · ${pct}% full`;
+    summaryLine.textContent = `${confirmed.length} rezervasyon · ${totalGuests} kişi · %${pct} dolu`;
   }
 
   function renderSpine() {
@@ -201,7 +199,7 @@ const SUPABASE_ANON_KEY =
         <div class="slot__bar"><div class="slot__bar-fill${isFull ? " is-full" : ""}" style="width:0%"></div></div>
         <div class="slot__meta">
           <span class="slot__count">${confirmedTotal}/${cap || "—"}</span>
-          ${isFull ? '<span class="slot__tag">Full</span>' : ""}
+          ${isFull ? '<span class="slot__tag">Dolu</span>' : ""}
         </div>
       `;
       slot.appendChild(header);
@@ -219,8 +217,8 @@ const SUPABASE_ANON_KEY =
               <span class="guest-row__email">${escapeHtml(r.email || "—")}</span>
               ${
                 cancelled
-                  ? '<span class="guest-row__cancelled-tag">Cancelled</span>'
-                  : `<button type="button" class="guest-row__cancel" data-id="${escapeHtml(r.id)}" aria-label="Cancel reservation">×</button>`
+                  ? '<span class="guest-row__cancelled-tag">İptal edildi</span>'
+                  : `<button type="button" class="guest-row__cancel" data-id="${escapeHtml(r.id)}" aria-label="Rezervasyonu iptal et">×</button>`
               }
             </li>`;
           })
@@ -229,7 +227,7 @@ const SUPABASE_ANON_KEY =
       } else {
         const empty = document.createElement("p");
         empty.className = "slot__empty";
-        empty.textContent = "No reservations yet.";
+        empty.textContent = "Henüz rezervasyon yok.";
         slot.appendChild(empty);
       }
 
@@ -255,12 +253,12 @@ const SUPABASE_ANON_KEY =
     loginError.hidden = true;
     try {
       const token = await signIn(email, password);
-      if (!token) return showLogin("Incorrect email or password.");
+      if (!token) return showLogin("E-posta veya şifre hatalı.");
       setAuthToken(token);
       showPanel();
       loadAndRender();
     } catch (err) {
-      showLogin("Network error — please try again.");
+      showLogin("Ağ hatası — lütfen tekrar deneyin.");
     }
   });
 
@@ -297,29 +295,29 @@ const SUPABASE_ANON_KEY =
   capacityInput.addEventListener("change", async () => {
     const value = Number(capacityInput.value);
     if (!Number.isInteger(value) || value < 1 || value > 500) {
-      statusLine.textContent = "Capacity must be a whole number between 1 and 500.";
+      statusLine.textContent = "Kapasite 1 ile 500 arasında tam sayı olmalı.";
       capacityInput.value = maxGuestsPerSlot != null ? maxGuestsPerSlot : "";
       return;
     }
     const auth = getAuthHeader();
-    statusLine.textContent = "Saving capacity…";
+    statusLine.textContent = "Kapasite kaydediliyor…";
     try {
       const res = await fetch("/api/admin/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: auth },
         body: JSON.stringify({ maxGuestsPerSlot: value }),
       });
-      if (res.status === 401) return showLogin("Incorrect email or password.");
+      if (res.status === 401) return showLogin("E-posta veya şifre hatalı.");
       if (!res.ok) {
-        statusLine.textContent = "Failed to update capacity.";
+        statusLine.textContent = "Kapasite güncellenemedi.";
         return;
       }
       const data = await res.json();
       maxGuestsPerSlot = data.maxGuestsPerSlot;
-      statusLine.textContent = "Capacity updated.";
+      statusLine.textContent = "Kapasite güncellendi.";
       renderAll();
     } catch (err) {
-      statusLine.textContent = "Network error — please try again.";
+      statusLine.textContent = "Ağ hatası — lütfen tekrar deneyin.";
     }
   });
 
@@ -328,7 +326,7 @@ const SUPABASE_ANON_KEY =
     const btn = e.target.closest(".guest-row__cancel");
     if (!btn) return;
     const id = btn.dataset.id;
-    if (!id || !window.confirm("Cancel this reservation?")) return;
+    if (!id || !window.confirm("Bu rezervasyon iptal edilsin mi?")) return;
 
     const auth = getAuthHeader();
     btn.disabled = true;
@@ -338,15 +336,15 @@ const SUPABASE_ANON_KEY =
         headers: { "Content-Type": "application/json", Authorization: auth },
         body: JSON.stringify({ id }),
       });
-      if (res.status === 401) return showLogin("Incorrect email or password.");
+      if (res.status === 401) return showLogin("E-posta veya şifre hatalı.");
       if (!res.ok) {
-        statusLine.textContent = "Failed to cancel — please try again.";
+        statusLine.textContent = "İptal edilemedi — lütfen tekrar deneyin.";
         btn.disabled = false;
         return;
       }
       await loadAndRender();
     } catch (err) {
-      statusLine.textContent = "Network error — please try again.";
+      statusLine.textContent = "Ağ hatası — lütfen tekrar deneyin.";
       btn.disabled = false;
     }
   });
@@ -373,14 +371,14 @@ const SUPABASE_ANON_KEY =
   });
 
   const ADD_ERROR_MESSAGES = {
-    invalid_name: "Please enter a name.",
-    invalid_phone: "Please enter a phone number.",
-    invalid_email: "Please enter a valid email address.",
-    invalid_party_size: "Guests must be between 1 and 20.",
-    invalid_date: "That date is outside the booking window.",
-    invalid_time: "Please choose a time.",
-    closed: "The restaurant is closed on Mondays.",
-    full: "That time is fully booked.",
+    invalid_name: "Lütfen bir ad girin.",
+    invalid_phone: "Lütfen bir telefon numarası girin.",
+    invalid_email: "Lütfen geçerli bir e-posta adresi girin.",
+    invalid_party_size: "Kişi sayısı 1 ile 20 arasında olmalı.",
+    invalid_date: "Bu tarih rezervasyon aralığının dışında.",
+    invalid_time: "Lütfen bir saat seçin.",
+    closed: "Restoran Pazartesi günleri kapalı.",
+    full: "Bu saat tamamen dolu.",
   };
   const OVERRIDABLE_REASONS = new Set(["full", "closed", "invalid_date"]);
 
@@ -392,7 +390,7 @@ const SUPABASE_ANON_KEY =
       body: JSON.stringify(payload),
     });
     if (res.status === 401) {
-      showLogin("Incorrect email or password.");
+      showLogin("E-posta veya şifre hatalı.");
       return null;
     }
     if (!res.ok) throw new Error("http_error");
@@ -420,18 +418,18 @@ const SUPABASE_ANON_KEY =
       if (data.success) {
         closeAddModal();
         await loadAndRender();
-        statusLine.textContent = "Reservation added.";
+        statusLine.textContent = "Rezervasyon eklendi.";
         return;
       }
       const reason = data.reason;
-      addFormError.textContent = ADD_ERROR_MESSAGES[reason] || "Something went wrong — please try again.";
+      addFormError.textContent = ADD_ERROR_MESSAGES[reason] || "Bir şeyler ters gitti — lütfen tekrar deneyin.";
       addFormError.hidden = false;
       if (OVERRIDABLE_REASONS.has(reason)) {
         pendingOverridePayload = payload;
         addOverrideBtn.hidden = false;
       }
     } catch (err) {
-      addFormError.textContent = "Something went wrong — please try again.";
+      addFormError.textContent = "Bir şeyler ters gitti — lütfen tekrar deneyin.";
       addFormError.hidden = false;
     }
   });
@@ -445,14 +443,14 @@ const SUPABASE_ANON_KEY =
       if (data.success) {
         closeAddModal();
         await loadAndRender();
-        statusLine.textContent = "Reservation added (override).";
+        statusLine.textContent = "Rezervasyon eklendi (zorla ekleme).";
       } else {
-        addFormError.textContent = "Something went wrong — please try again.";
+        addFormError.textContent = "Bir şeyler ters gitti — lütfen tekrar deneyin.";
         addFormError.hidden = false;
         addOverrideBtn.hidden = true;
       }
     } catch (err) {
-      addFormError.textContent = "Something went wrong — please try again.";
+      addFormError.textContent = "Bir şeyler ters gitti — lütfen tekrar deneyin.";
       addFormError.hidden = false;
     } finally {
       addOverrideBtn.disabled = false;
@@ -462,14 +460,14 @@ const SUPABASE_ANON_KEY =
   // ---------- CSV ----------
   csvBtn.addEventListener("click", () => {
     const visible = reservations.filter(matchesFilters);
-    const header = ["Time", "Name", "Phone", "Email", "Guests", "Status"];
+    const header = ["Saat", "Ad", "Telefon", "E-posta", "Kişi Sayısı", "Durum"];
     const rows = visible.map((r) => [
       r.reservation_time.slice(0, 5),
       r.customer_name,
       r.phone,
       r.email || "",
       String(r.party_size),
-      r.status,
+      r.status === "cancelled" ? "İptal edildi" : "Onaylandı",
     ]);
     const csvEscape = (val) => {
       const s = String(val);
@@ -481,7 +479,7 @@ const SUPABASE_ANON_KEY =
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `reservations-${selectedDate}.csv`;
+    a.download = `rezervasyonlar-${selectedDate}.csv`;
     document.body.appendChild(a);
     a.click();
     a.remove();
