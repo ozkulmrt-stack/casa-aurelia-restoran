@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static-site",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "exec python3 .claude/tools/range_server.py \"${PORT:-8000}\""
+      ],
+      "port": 8000,
+      "autoPort": true
+    },
+    {
+      "name": "chat-dev",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "exec $HOME/.local/node/bin/node --env-file=.env.local .claude/tools/dev-server.js \"${PORT:-3000}\""
+      ],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

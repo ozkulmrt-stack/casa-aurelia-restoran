@@ -36,6 +36,24 @@
     // explicit play() call is only a safety net for browsers that need one.
     const p = video.play();
     if (p && typeof p.then === "function") p.catch(() => ready());
+
+    // ===== Self-healing watchdog =====
+    // Some browsers silently pause an autoplaying video a few frames in
+    // (backgrounding heuristics, decoder hiccups, etc.) without ever firing
+    // an error — the tab just freezes on one frame with no way to tell why.
+    // If that happens while the tab is visible and motion is wanted, just
+    // ask it to resume. Harmless no-op once the video reaches "ended" (it
+    // won't, since it loops) or during an intentional pause we never issue.
+    video.addEventListener("pause", () => {
+      if (!video.ended && document.visibilityState === "visible") {
+        video.play().catch(() => {});
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && video.paused && !video.ended) {
+        video.play().catch(() => {});
+      }
+    });
   }
 
   video.addEventListener(
